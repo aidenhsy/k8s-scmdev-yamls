@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-service
+  labels:
+    app: pricing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pricing-service
+  template:
+    metadata:
+      labels:
+        app: pricing-service
+    spec:
+      containers:
+        - name: pricing-service
+          image: saihu-acr-registry-vpc.cn-hongkong.cr.aliyuncs.com/scm-dev/pricing-service:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+            - containerPort: 5000
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 4000
+            failureThreshold: 30
+            periodSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 3
+          envFrom:
+            - secretRef:
+                name: pricing-service-secret

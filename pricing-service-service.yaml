@@ -1,0 +1,27 @@
+# --- 1. external HTTP /healthz ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing-service
+spec:
+  type: ClusterIP
+  selector:
+    app: pricing-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4000
+---
+# --- 2. in-cluster raw TCP ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing-service-tcp
+spec:
+  clusterIP: None
+  selector:
+    app: pricing-service
+  ports:
+    - name: tcp-micro
+      port: 5000
+      targetPort: 5000
