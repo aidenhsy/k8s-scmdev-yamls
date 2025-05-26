@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: id-service
+  labels:
+    app: id-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: id-service
+  template:
+    metadata:
+      labels:
+        app: id-service
+    spec:
+      containers:
+        - name: id-service
+          image: saihu-acr-registry-vpc.cn-hongkong.cr.aliyuncs.com/scm-dev/id-service:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4001
+            - containerPort: 5001
+          envFrom:
+            - secretRef:
+                name: id-service-secret
