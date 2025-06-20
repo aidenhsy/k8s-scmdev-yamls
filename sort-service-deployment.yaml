@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sort-service
+  labels:
+    app: sort-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sort-service
+  template:
+    metadata:
+      labels:
+        app: sort-service
+    spec:
+      containers:
+        - name: sort-service
+          image: saihu-acr-registry-vpc.cn-hongkong.cr.aliyuncs.com/scm-dev/sort-service:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4002
+            - containerPort: 5002
+          envFrom:
+            - secretRef:
+                name: sort-service-secret
