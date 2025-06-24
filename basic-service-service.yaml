@@ -1,0 +1,27 @@
+# --- 1. external HTTP /healthz ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basic-service
+spec:
+  type: ClusterIP
+  selector:
+    app: basic-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4004
+---
+# --- 2. in-cluster raw TCP ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basic-service-tcp
+spec:
+  clusterIP: None
+  selector:
+    app: basic-service
+  ports:
+    - name: tcp-micro
+      port: 5004
+      targetPort: 5004

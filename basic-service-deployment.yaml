@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-service
+  labels:
+    app: basic-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basic-service
+  template:
+    metadata:
+      labels:
+        app: basic-service
+    spec:
+      containers:
+        - name: basic-service
+          image: saihu-acr-registry-vpc.cn-hongkong.cr.aliyuncs.com/scm-dev/basic-service:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4004
+            - containerPort: 5004
+          envFrom:
+            - secretRef:
+                name: basic-service-secret
