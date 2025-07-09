@@ -19,8 +19,8 @@ spec:
           image: saihu-acr-registry-vpc.cn-hongkong.cr.aliyuncs.com/scm-dev/id-service:dev
           imagePullPolicy: Always
           ports:
-            - containerPort: 4001
-            - containerPort: 5001
+            - containerPort: 4002
+            - containerPort: 5002
           envFrom:
             - secretRef:
                 name: id-service-secret
